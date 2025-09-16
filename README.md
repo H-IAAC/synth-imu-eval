@@ -1,11 +1,11 @@
-> [Criar repositório usando este template](https://github.com/new?owner=H-IAAC&template_name=Template&template_owner=H-IAAC)
-> Preencha as seções do README, e remova comentários como este após a edição.
->
-> O README deve conter uma primeira seção abstract, sendo ela um cabeçalho de nível 1 (# Nome do projeto)
-# Coloque o nome do projeto aqui!
+# IMUEval – Synthetic IMU Data Evaluation Pipeline
 
-> Descrição do projeto, objetivos e intenções de uso
-> Deve conter ao final a Badge (imagem horizontal) do H.IAAC e das Metas associadas ao projeto
+This repository provides **IMUEval**, a reproducible and modular pipeline for generating and evaluating **synthetic inertial data** for Human Activity Recognition (HAR).
+It is built on **PyTorch Lightning**, and supports three stages:
+
+1. **Generative Model Training** – train from scratch or load from checkpoint.  
+2. **Synthetic Data Generation** – produce synthetic samples and save them.  
+3. **Synthetic Data Evaluation** – run metrics comparing real vs. synthetic data.
 
 This project was developed as part of the Cognitive Architectures research line from 
 the Hub for Artificial Intelligence and Cognitive Architectures (H.IAAC) of the State University of Campinas (UNICAMP).
@@ -13,44 +13,12 @@ See more projects from the group [here](https://h-iaac.github.io/HIAAC-Index).
 
 <!--Badges-->
 [![](https://img.shields.io/badge/-H.IAAC-eb901a?style=for-the-badge&labelColor=black)](https://hiaac.unicamp.br/)
-
-> Mantenha apenas as badges das Metas associadas ao projeto (elas podem ser reorganizadas na mesma linha)
-<!--Meta 1: Arquiteturas Cognitivas-->
 [![](https://img.shields.io/badge/-Arq.Cog-black?style=for-the-badge&labelColor=white&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4gPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1Ni4wMDQiIGhlaWdodD0iNTYiIHZpZXdCb3g9IjAgMCA1Ni4wMDQgNTYiPjxwYXRoIGlkPSJhcnFjb2ctMiIgZD0iTTk1NS43NzQsMjc0LjJhNi41Nyw2LjU3LDAsMCwxLTYuNTItNmwtLjA5MS0xLjE0NS04LjEtMi41LS42ODksMS4xMjNhNi41NCw2LjU0LDAsMCwxLTExLjEzNi4wMjEsNi41Niw2LjU2LDAsMCwxLDEuMzY4LTguNDQxbC44LS42NjUtMi4xNS05LjQ5MS0xLjIxNy0uMTJhNi42NTUsNi42NTUsMCwwLDEtMi41OS0uODIyLDYuNTI4LDYuNTI4LDAsMCwxLTIuNDQzLTguOSw2LjU1Niw2LjU1NiwwLDAsMSw1LjctMy4zLDYuNDU2LDYuNDU2LDAsMCwxLDIuNDU4LjQ4M2wxLC40MSw2Ljg2Ny02LjM2Ni0uNDg4LTEuMTA3YTYuNTMsNi41MywwLDAsMSw1Ljk3OC05LjE3Niw2LjU3NSw2LjU3NSwwLDAsMSw2LjUxOCw2LjAxNmwuMDkyLDEuMTQ1LDguMDg3LDIuNS42ODktMS4xMjJhNi41MzUsNi41MzUsMCwxLDEsOS4yODksOC43ODZsLS45NDcuNjUyLDIuMDk1LDkuMjE4LDEuMzQzLjAxM2E2LjUwNyw2LjUwNywwLDAsMSw1LjYwOSw5LjcyMSw2LjU2MSw2LjU2MSwwLDAsMS01LjcsMy4zMWgwYTYuNCw2LjQsMCwwLDEtMi45ODctLjczMmwtMS4wNjEtLjU1LTYuNjgsNi4xOTIuNjM0LDEuMTU5YTYuNTM1LDYuNTM1LDAsMCwxLTUuNzI1LDkuNjkxWm0wLTExLjQ2MWE0Ljk1LDQuOTUsMCwxLDAsNC45NTIsNC45NUE0Ljk1Nyw0Ljk1NywwLDAsMCw5NTUuNzc0LDI2Mi43MzlaTTkzNC44LDI1Ny4zMjVhNC45NTIsNC45NTIsMCwxLDAsNC4yMjEsMi4zNDVBNC45Myw0LjkzLDAsMCwwLDkzNC44LDI1Ny4zMjVabS0uMDIyLTEuNThhNi41MTQsNi41MTQsMCwwLDEsNi41NDksNi4xTDk0MS40LDI2M2w4LjA2MSwyLjUuNjg0LTEuMTQ1YTYuNTkxLDYuNTkxLDAsMCwxLDUuNjI0LTMuMjA2LDYuNDQ4LDYuNDQ4LDAsMCwxLDIuODQ0LjY1bDEuMDQ5LjUxOSw2LjczNC02LjI1MS0uNTkzLTEuMTQ1YTYuNTI1LDYuNTI1LDAsMCwxLC4xMTUtNi4yMjksNi42MTgsNi42MTgsMCwwLDEsMS45NjYtMi4xMzRsLjk0NC0uNjUyLTIuMDkzLTkuMjIyLTEuMzM2LS4wMThhNi41MjEsNi41MjEsMCwwLDEtNi40MjktNi4xbC0uMDc3LTEuMTY1LTguMDc0LTIuNS0uNjg0LDEuMTQ4YTYuNTM0LDYuNTM0LDAsMCwxLTguOTY2LDIuMjY0bC0xLjA5MS0uNjUyLTYuNjE3LDYuMTMxLjc1MSwxLjE5MmE2LjUxOCw2LjUxOCwwLDAsMS0yLjMsOS4xNjRsLTEuMS42MTksMi4wNiw5LjA4NywxLjQ1MS0uMUM5MzQuNDc1LDI1NS43NSw5MzQuNjI2LDI1NS43NDQsOTM0Ljc3OSwyNTUuNzQ0Wm0zNi44NDQtOC43NjJhNC45NzcsNC45NzcsMCwwLDAtNC4zMTYsMi41LDQuODg5LDQuODg5LDAsMCwwLS40NjQsMy43NjIsNC45NDgsNC45NDgsMCwxLDAsNC43NzktNi4yNjZaTTkyOC43LDIzNS41MzNhNC45NzksNC45NzksMCwwLDAtNC4zMTcsMi41LDQuOTQ4LDQuOTQ4LDAsMCwwLDQuMjkxLDcuMzkxLDQuOTc1LDQuOTc1LDAsMCwwLDQuMzE2LTIuNSw0Ljg4Miw0Ljg4MiwwLDAsMCwuNDY0LTMuNzYxLDQuOTQsNC45NCwwLDAsMC00Ljc1NC0zLjYzWm0zNi43NzYtMTAuMzQ2YTQuOTUsNC45NSwwLDEsMCw0LjIyMiwyLjM0NUE0LjkyMyw0LjkyMywwLDAsMCw5NjUuNDc5LDIyNS4xODdabS0yMC45NTItNS40MTVhNC45NTEsNC45NTEsMCwxLDAsNC45NTEsNC45NTFBNC45NTcsNC45NTcsMCwwLDAsOTQ0LjUyNywyMTkuNzcyWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTkyMi4xNDMgLTIxOC4yKSIgZmlsbD0iIzgzMDNmZiI+PC9wYXRoPjwvc3ZnPiA=)](https://h-iaac.github.io/HIAAC-Index)
-
-<!--Meta 2: Aprendizado em Arquiteturas Cognitivas-->
-[![](https://img.shields.io/badge/-LEARNING-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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)](https://h-iaac.github.io/HIAAC-Index)
-
-<!--Meta 3: Aprendizado distribuído-->
-[![](https://img.shields.io/badge/-DISTRIBUTED-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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)](https://h-iaac.github.io/HIAAC-Index)
-
-<!--Meta 4: Representação de Conhecimento-->
 [![](https://img.shields.io/badge/-KNOWLEDGE%20REPRESENTATION-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAaIAAAGiAGMgdvaAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAACjlJREFUaIG92nuUXXV1B/DPPudOIimEQHkFiLZQAREFuharPioG5NUAxQpCaRFsXba1j2VDxJLMTCaXeYQij+XqS61rWRpAMDwUJBhBw0uXrrpciKA8Ci1CoOEhFOSR5J6z+8e5MwxDIJPJpN+/7j2/32/v/T3n99h7/3ZkpvFohz1bhY8LRyX7YzdswAt4CPcGd6h8tzetNY0YDnspHYnfTQ7CvtgeM/BkcF+m7xS1f1uSnhg/NkaJrAzl/S1taRHeghqP4alu3zn4DZTd/4kfRLqyU7tsIP1yKsafH3bqFM4Q/hDvRXSbquCR5Nnu/92xV7f9FeFz+3e0P5qqMSIrQ3lf6ZrgJDwiLS9r1y7OMRLgH8LM53scnJUPCsfjAyjwMq5Quagv/XwyBIbCO5QW4XTM0ry4O6Qbo3Tb7I1+8jdp/fgx7bBbUTglwrmYh6/vXznlo6mKzDTYYzBSH75bVU4eSM9NxpjuNDwzw1/gbV1jrioryxanBzY1ZnnYryotw2kogv/O9IWqtmIgPT4ZveeHnarSNckRGc7r32gglsk9y9JDWFdVDpksifFYGcoHSh/J1C+8CxuEz1UdIwPppS7pWWXLEukczJDuFgb3r1w3Oj22BOeHnTqln2CXorJvDBa5WBjJ9Kn+yhe2VOB4tENRlE4NLtTM5/8KPg3J5/GbeCxZ1F9ZKeWbydscBkt/GeGfpHOLCEejrmvXbo1QGEh1f8eVVeUA4aJkXnJ9cj32znBhVXlHf8fXtpYElLVrkBGOLpK347GB9OTWCh7FQPoVvhU8P+7x88Hqbtu0YElah7XJfoXmnFg3XcJXhnKoxzJpNXaItCiaLX22tHqox7KVMbaFTwfWYdcClZwewcvDrg+UbpQGsDbC/N7Kxb2Vi6PwPs3WPnB/6ZaRMHc6dEo96BR4PsLOWytvcIaDq9JdybHJjWXl0N6Nvj/a3rvBj8rKYcmNmF+XfjQy07u3Vq+wE54v8J/JvHZ4y1RlDfc4PGq3Ya60pL9y4uL0zMR+i9Mz/ZUTI/Vibl25bbDHB6aqtx1mYW88WAT3omz1TO3tDLeclM16mJWc2VdZ/qY7UsreykhwFn4t0uqhlt+fiu5WyyEal+VnRc0doDJ/CiQ+llytOdE/3N9x2WTH9nasEBagwrVDLZ/cUv3qxubk9qKorEFmI3TSGCotTC7VrLGj+zpWbakdfRvdEuFYzTb9xaHSwi0Z37W5LitrIjMNtdyJ91aVeZPxdwZb/jT4Mp7I0jH96927pSTGY2Smg+rKaszFJ/o6vrK5Me2wd1l6BN/r6zi8gExXomgVztycgOGWk4Iv4tnpIAFL1runKB2rcdm/NJk107W1kK6iccHVtcvwYoZPvdlhNdjjg8mV2BjhpOkgMYol692ThQVYjyuHexz+Rn3bodX1uF9q1a4YIzKQngu+irc+UPrIpgaPzHBIpG+grDm5d6M7p4vEKPo3+GHRuPetTN94o3OmKJ2CecFl52YTeBVjjZWLUGXqb8erz6Ed9qhrq7BD8CdLO26abhKjWNJxY/AJ7FhXVrXDbhNsKYR+VF2bvYbI4nQfrhTeVZROHX2+MpRl6XLMjdTb23H5tiIxit6OFVI/9ipLl49/sa3S6ZEOxFfHB2+vefMqbawPLrwg7AD3twzgSHyzt/b325rEmCm15ViFo8pCP7TD7OQCrK8aW8cQE7MoY2FvuAirpG/j8bJy6Kbcjm2Jbkj74+StdTguWBDpb0fD2/F9X0fkkrDdS6V7krfiOewYYf54B3CyGOzx+SKdAHX4Zv/GJlrcIhkz/E7UbsevktnB2qpy4GgIPYpi4sCF6eUMf4UWdon02amQgEgnJvsk+0Q6cSoy+jf4YdfJ3Dkam/56Igk2QQTkq55wmNYgaKrYtJ1v1qHrGl+MDp6uw/mDPd4/Fe0ZbggeDh7OcMNUZAzP8J4Mg3gmG5v+sWvja7Cpxb480rkZLki+VaSb8URVOXQgPT0VY6aKdti5LP0Y8+pwXMHvSQs3tdhf80WWhwMinY1H647BpRutkQaxd1m6dOJBuY1JFN3z623SsqUb3TyjYwCPR/q7ofD2NyTSzQDOSD4zmu2oaoO4BQvKwuL/HxqUhV4ch29XtWH4bHohOQczlZaO7z82tQZnemdU7pZ+2lc7dHyU1w67dT/xnsnH+zv+fVuSGG45K/kK1paV3x6fg26HoizcLRxQVg4cPd3HvkhUFqGIMDgxVB1ITxalBfjf4MsjLcdvKxJDLSdkE+s8l6UFExPpA6nOMISybpLgjf2ZOZpHfQxP7V/Z941yscMzvCdrt2gIHzPdHnD38PsOigzH9m/shuETsDKU9zf56l27weAvC+g0QcqsSP/8Zgnl3g1+gD9CT6brR2Y6aLpIjMx0UNRuwszgtDciAc01gi9hVlk4ndGp1Vyy1FFbsTmFfR3X488wp66sng4y40LdOcknezuTOHMaW1M4DWJIzsvSI8GtvR1HTlb5UGlh17F8LsIJU3VjBnu8P9INmCMt6qtcMmkburmGorJnUZeOQMgty4L0VS7p5qa2z3TzVDaAoZYTovGuZ+PPt4QESDehyNL8otDN9JVu3VJDejtW4BREzXXDLR+b7NjhlrNwHSL4g76Of91S/VFY0/15eJEciGr2Rj/dUkE0ayab3NSLyaVDpV4xdqH5OrRDMVTq754TL0Q4ZlJrYhPodNyFTN4Zg2Wuwwt9Hb81FWGjGJnp3XVlleamalVZOXNiINYOu5SlFZoT+7EsLehfP7UXOIqhll8gCs38fHYz/TeLJevdXVYODVZjQVW6a7zXPDjDYa3Sf+C4YE1VOWxrSYAmizK70GzBW30NBovTU53KAmmZJlmxZqS0aKR0TtS+n8yTlnYqRw2k/5kOnRrXvqelKQjYfZqEGkg12uf1uLNIV9Xhwm7T03U4dWlnbIFOD8LueLLA/Zr7kd02M2TSaIfZBSdix3GP5wQnjGZnpgPdW689gwcK6RZEWTh5awW3QzHYckZZuk/6NB7B8RpSj0Y6e0Pp58Mtp09HbFM1Nod0SwzLuXXpYTxZVQ6eSsFAO7SK0qlCbzd59kqGC+qO5QPpFZrszIstvdJnMFO6J8LQfpWrt6Jg4G78elXZp7lW6HGe1B+sKSsnj+ZTN4fhMC8LZ2oSyntrLm2uUGn3pYc2NaZbwjGgyfGW+EWkf1FbMdlqo/ElHEK7b6NlY0U195euxofxaKbzy9o13XvsMbTDrKLl0KjN7942jVbzvIjLukU1D07GmOXhgKp0Nv7Yq0U135NuysKt23fctTC9PEH/HmXhZE1Rzd74erd2pn5NmdN9LUujqRXZTrMlP64hE5rNYE+vliHVuFP6WlW7fCpTsmvcnKJwRjRe7Pu8Guwl1hotZGh2p1H9LwsXVB3ndXfJ12dRuqzPivCh5ADN1vwiXsKDwc9we1RunfjFthbtsEerdEQ2/t+B2E/ztbbDutHCs6p26cRz6P8AnQ87YIahmyQAAAAASUVORK5CYII=)](https://h-iaac.github.io/HIAAC-Index)
 
-<!--Meta 5: Processamento de Linguagem Natural-->
-[![](https://img.shields.io/badge/-NLP-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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)](https://h-iaac.github.io/HIAAC-Index)
+---
 
-<!--Meta 6: IA para Finanças-->
-[![](https://img.shields.io/badge/-FINANCE-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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)](https://h-iaac.github.io/HIAAC-Index)
-
-<!--Meta 7: IA para Marketing-->
-[![](https://img.shields.io/badge/-MARKETING-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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
-)](https://h-iaac.github.io/HIAAC-Index)
-
-<!--Meta 8: Gestão da Pesquisa-->
-[![](https://img.shields.io/badge/-MANAGEMENT-black?style=for-the-badge&labelColor=white&logo=data:image/png;base64,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
-)](https://h-iaac.github.io/HIAAC-Index)
-
-> As seguintes seções são obrigatórias, devendo começar com um cabeçalho de nível 2 (## Nome da seção), mantendo o nome delas. No caso de nomes condicionais (A / B), é possível manter assim ou escolher apenas um nome (## A / B ou ## A ou ## B)
->
-> Caso deseje, pode adicionar outras seções além das obrigatórias (utilize apenas cabeçalhos de nível 2 e maior)
-
-## Repository Structure
-> Lista e descrição das pastas e arquivos importantes na raiz do repositório
-
-- \<pasta>: \<descrição>
-
-
+<!--
 ## Dependencies / Requirements
 
 > Descrição do passo-a-passo para instalação de bibliotecas, softwares e demais ferramentas
@@ -62,53 +30,247 @@ See more projects from the group [here](https://h-iaac.github.io/HIAAC-Index).
 > Passo-a-passo para execução do projeto localmente, assim como parâmetros de configuração
 > aceitos (por exemplo, como trocar o caminho para o arquivo de entrada ou saída). No caso de 
 > bibliotecas/API fornecer o link para a documentação do mesmo se disponível.
+-->
+
+## Experimental Units
+
+Each experiment (referred to as an *experimental unit*) is defined by three YAML configuration files:
+
+- **pipelines** → execution strategy (trainer, devices, callbacks, task).  
+- **models** → generative model definition and hyperparameters.  
+- **data_modules** → dataset preprocessing, batching, and normalization.  
+
+These files are located in the `benchmarks/base_configs` directory, each in its respective subdirectory (e.g., `benchmarks/base_configs/data_module`).  
+
+This modular design ensures that experiments are **reproducible**, **extensible**, and **scalable**.  
+Experiment orchestration is handled through a **CSV file**, where each row specifies a combination of pipeline, data, and model configurations, along with optional overrides.
+
+
+---
+
+## Supported Models
+
+We evaluate six state-of-the-art models for synthetic IMU data generation:
+
+* GAN-based models
+
+    * TCGAN ([Original Implementation](https://arxiv.org/abs/2309.04732))
+
+    * TTS-GAN ([Original Implementation](https://arxiv.org/abs/2202.02691))
+
+    * TTS-CGAN ([Original Implementation](https://arxiv.org/abs/2206.13676))
+
+* Diffusion-based models
+
+    * BioDiffusion ([Original Implementation](https://arxiv.org/abs/2401.10282))
+
+    * DiffusionTS ([Original Implementation](https://arxiv.org/abs/2403.01742))
+
+    * DiffWave ([Original Implementation](https://arxiv.org/abs/2009.09761))
+
+---
+
+## Example: CSV Experiment Definition
+
+```csv
+execution/id,model/config,model/name,model/override_id,data/data_module,data/view,data/dataset,data/partition,data/name,data/override_id,pipeline/task,pipeline/name,pipeline/override_id,backbone/load_from_id,ckpt/resume
+generate_train_biodiffusion_normalized_all,train,diffusion_biodiffusion_norm_all,,multimodal_df,daghar_standardized_balanced_normalized_all,all,train,*,,har,train_generate_synth_normalized_all,train_100,,
+generate_train_biodiffusion_normalized_label,train,diffusion_biodiffusion_norm_label,,multimodal_df,daghar_standardized_balanced_normalized_label,all,train,*,,har,train_generate_synth_normalized_label,train_100,
+generate_train_biodiffusion_random_normalized_all,train,diffusion_biodiffusion_random_norm_all,,multimodal_df,daghar_standardized_balanced_normalized_all,all,train,*,,har,train_generate_synth_normalized_all,no_train,,
+generate_train_biodiffusion_random_normalized_label,train,diffusion_biodiffusion_random_norm_label,,multimodal_df,daghar_standardized_balanced_normalized_label,all,train,*,,har,train_generate_synth_normalized_label,no_train,,
+```
+
+---
+
+## Evaluation Metrics
+
+IMUEval provides both **quantitative** and **qualitative** metrics for assessing synthetic data:
+
+* **Fidelity** → Context-FID (C-FID), Jensen-Shannon Divergence (JS), Maximum Mean Discrepancy (MMD).
+
+* **Diversity** → Dynamic Time Warping (DTW).
+
+* **Utility** → Discriminative Score (DS), Predictive Score (PS).
+
+* **Visualization** → t-SNE (time and frequency domain).
+
+Metrics can be run at **class-level granularity**, ensuring fine-grained insights into generative performance.
+
+Metrics can be computed at the class level, enabling fine-grained insights into generative performance.
+Additionally, new metrics can be seamlessly integrated into the evaluation pipeline. This is a standard feature of our framework, with examples and guides available in the [metrics](benchmarks/experiments/synth_data_generation_icassp/icassp_pipeline/metrics/metrics.py) file.
+## Repository Structure
+
+```plaintext
+.
+├── benchmarks
+│   ├── base_configs/
+│   │   ├── pipeline/     # Training/evaluation execution configs
+│   │   ├── models/       # Model hyperparameter configs
+│   │   └── datamodule/   # Dataset and preprocessing configs
+│   │
+│   ├── experiments/
+│   │   ├── example/      # Minimal working example
+│   │   └── synth_data_generation_icassp/   # ICASSP experiment
+│   │       ├── configs/                    # Execution plan (.csv) files
+│   │       │   └── overrides/              # Config override files
+│   │       ├── icassp_pipeline/
+│   │       │   ├── callback/               # Data Generation callback and others
+│   │       │   ├── checkpoints/            # Model checkpoints (.ckpt)
+│   │       │   │   └── embedder/
+│   │       │   ├── data/                   # Real and synthetic datasets
+│   │       │   ├── datamodule/             
+│   │       │   ├── figs/                   # Figures (static plots, illustrations)
+│   │       │   ├── metrics/                # Computed metric outputs
+│   │       │   ├── models/                 # Saved model definitions
+│   │       │   ├── plots/                  # Visualizations (t-SNE, etc.)
+│   │       │   └── results/                # Final evaluation results
+│   │
+│   └── README.md   # Explanation of the benchmarks framework
+│
+├── figures/        # Global figures for the main README or paper
+├── LICENSE
+└── README.md       # Project overview and results summary
+
+```
+---
+
+## Results(case study)
+
+### 0. what we've got
+
+* Diffusion models (BioDiffusion, DiffWave, DiffusionTS) consistently outperform GANs.
+
+* DiffWave shows stable performance across all activity classes.
+
+* GAN models (TCGAN, TTS-GAN, TTS-CGAN) generate plausible signals but are more easily distinguishable from real data.
+
+* DTW analysis reveals diffusion models better preserve diversity.
+
+* DS and PS metrics confirm diffusion models generate more useful and less distinguishable samples.
+
+### 1. Predictive Score (PS) and Discriminative Score (DS)
+
+| Model                                 |        PS ↓          |         DS ↓         |
+|---------------------------------------|----------------------|----------------------|
+| BioDiffusion<sub>global</sub>         | 0.8664 ± 0.0027      | 0.2754 ± 0.0031      |
+| BioDiffusion<sub>rand-global</sub>    | 4.9214 ± 0.1795      | 0.4999 ± 0.0001      |
+| **BioDiffusion<sub>label</sub>**      | **0.8641 ± 0.0016**  | 0.2264 ± 0.0041      |
+| BioDiffusion<sub>rand-label</sub>     | 1.8688 ± 0.0599      | 0.5000 ± 0.0000      |
+| DiffusionTS<sub>2enc-label</sub>      | 0.9915 ± 0.0052      | 0.3535 ± 0.0031      |
+| DiffusionTS<sub>2enc-rand-label</sub> | 1.6167 ± 0.0388      | 0.4998 ± 0.0023      |
+| DiffusionTS<sub>4enc-label</sub>      | 0.9929 ± 0.0029      | 0.3580 ± 0.0022      |
+| DiffusionTS<sub>4enc-rand-label</sub> | 1.6424 ± 0.0202      | 0.4987 ± 0.0002      |
+| **DiffWave<sub>label**                | 0.8838 ± 0.0035      | **0.1258 ± 0.0042**  |
+| DiffWave<sub>rand-label</sub>         | 757.0222 ± 323.1032  | 0.5000 ± 0.0000      |
+| TCGAN<sub>raw</sub>                   | 1.2209 ± 0.0080      | 0.4996 ± 0.0002      |
+| TCGAN<sub>rand-raw</sub>              | 1.2079 ± 0.0017      | 0.4997 ± 0.0000      |
+| TCGAN<sub>label</sub>                 | 1.2355 ± 0.0084      | 0.4993 ± 0.0002      |
+| TCGAN<sub>rand-label</sub>            | 1.2064 ± 0.0106      | 0.4997 ± 0.0002      |
+| TTSGAN<sub>raw</sub>                  | 1.8038 ± 0.0195      | 0.4743 ± 0.0029      |
+| TTSGAN<sub>rand-raw</sub>             | 1.3028 ± 0.0303      | 0.5000 ± 0.0000      |
+| TTSGAN<sub>label</sub>                | 1.0310 ± 0.0074      | 0.4668 ± 0.0026      |
+| TTSGAN<sub>rand-label</sub>           | 1.4038 ± 0.0144      | 0.4999 ± 0.0000      |
+| TTSGAN<sub>global</sub>               | 1.4484 ± 0.0333      | 0.4998 ± 0.0002      |
+| TTSGAN<sub>rand-global</sub>          | 1.5671 ± 0.0232      | 0.5000 ± 0.0000      |
+| TTSCGAN<sub>raw</sub>                 | 1.2371 ± 0.0108      | 0.4992 ± 0.0002      |
+| TTSCGAN<sub>label</sub>               | 1.5999 ± 0.0180      | 0.4998 ± 0.0000      |
+| TTSCGAN<sub>global</sub>              | 1.2461 ± 0.0088      | 0.4996 ± 0.0002      |
+| TTSCGAN<sub>rand-global</sub>         | 1.8953 ± 0.0220      | 0.5000 ± 0.0000      |
+
+The **Predictive Score (PS)** measures whether synthetic data can train a model that generalizes well to real data, while the **Discriminative Score (DS)** evaluates whether a classifier can distinguish real from synthetic samples.  
+Both metrics use simple neural networks: a 2-layer GRU for PS and a 2-layer MLP for DS.
+
+- **Diffusion models** clearly outperform GANs in both PS and DS.  
+- **BioDiffusion (label)** achieved the **lowest PS**, meaning its generated data were the most useful for prediction.  
+- **DiffWave (label)** obtained the **lowest DS**, showing it produced data closest to real distributions, capable of reaching the closest to 50% of accuracy with the MLP.
+- GAN variants clustered near DS ≈ 0.5, indicating that they are easily distinguished from real data.  
+- We also included **random baselines** (e.g., BioDiffusion<sub>rand</sub>, DiffusionTS<sub>rand</sub>, TCGAN<sub>rand</sub>) to show how performance degrades when labels are randomized or signals are unstructured. As expected, they performed poorly, serving as a lower bound for model comparison.
+
+### 2. Fidelity Metrics – Radar Plots
+
+![radar Results Figure](figures/complet_results_radar.png)
+*Figure 1: FFT t-SNE results of a parcial synthetic dataset generated by each of the techniques trained with normalization by label of the dataset DAGHAR.*
+
+The radar plots above show per-class results for **Context-FID**, **MMD**, and **JS divergence**, where **larger values (towards the outer edges)** indicate better fidelity. The models with the **largest filled areas** correspond to better performance, and the legend is ordered **top to bottom, left to right** for easier comparison.
+
+- **Diffusion models (DiffWave, BioDiffusion, DiffusionTS)** dominate across almost all classes.  
+- **GANs (TTS-GAN, TCGAN, TTSCGAN)** show weaker and less stable performance.  
+- Performance is consistent across activity classes, with diffusion models especially excelling in *Sit* and *Walk*.  
+
+These plots highlight that **diffusion-based models produce synthetic data distributions much closer to the real ones** compared to GANs.
+
+### 3. Diversity Metrics – DTW Similarity
+
+![dtw Results Figure](figures/complete_results_dtw.png)
+*Figure 2: DTW Results of the synthetic dataset generated by each technique.*
+
+The DTW (Dynamic Time Warping) plots compare similarity between samples:  
+- **R2R (real-to-real)** = natural diversity of real data  
+- **R2S (real-to-synthetic)** = closeness of synthetic samples to real ones  
+- **S2S (synthetic-to-synthetic)** = diversity within synthetic data  
+
+**Interpretation**:  
+- When **R2S values are close to R2R**, synthetic data is well aligned with real data distributions.  
+- When **S2S is close to R2R**, synthetic data exhibits a diversity comparable to real data.  
+- If **S2S shifts left (lower values)**, the model collapses to less diverse synthetic samples.
+
+**Findings**:  
+- Diffusion models (DiffWave, BioDiffusion, DiffusionTS) show strong alignment between R2S and R2R, confirming good realism.  
+- Some GANs (e.g., TCGAN) achieve competitive R2S values but fail on diversity (S2S much lower than R2R).  
+- This indicates that GANs often generate “average-like” samples rather than diverse ones.  
+
+Together, these results demonstrate that **diffusion models generate not only realistic but also diverse IMU data**, while GANs often struggle with diversity and fidelity simultaneously.
+
+### 4. Qualitative Visualization – t-SNE in the Frequency Domain
+
+![t-SNE Results Figure](figures/all_tsne_comparisson_fft.png)
+*Figure 3: FFT t-SNE results of a parcial synthetic dataset generated by each of the techniques trained with normalization by label of the dataset DAGHAR.*
+
+The plots above show **t-SNE projections** of real (blue) and synthetic (red) samples in the **frequency domain**.  
+On the **left**, we see the overall distribution of data for each model, while on the **right**, the samples are split by activity class (*Sit, Stand, Walk, Upstairs, Downstairs, Run*).
+
+**Key observations:**
+
+- **Diffusion models (BioDiffusion, DiffusionTS, DiffWave)**:  
+  - Generate synthetic clusters that strongly overlap with the real ones.  
+  - DiffWave in particular reproduces distributions with minimal separation between real and synthetic data.  
+  - This confirms their superior fidelity, as also seen in Context-FID, MMD, and JS metrics.
+
+- **GAN models (TTSCGAN, TCGAN, TTSGAN)**:  
+  - Often form **separate synthetic clusters**, sometimes collapsing around “average-like” representations.  
+  - This explains why they show lower diversity in DTW and higher DS values (synthetic samples easier to classify as fake).  
+  - For example, TCGAN tends to generate compact clusters overlapping partially with real data, but fails to capture the full distribution.
+
+---
+
+## Useful Links:
+- [DAGHAR Dataset on Zenodo](https://zenodo.org/records/13987073)
+- [Minerva Framework (GitHub)](https://github.com/discovery-unicamp/Minerva)
+- [Normalized views of all daghar dataset (all / per label)]()
+- [Synthetic sets created by our experiments]()
+
+---
 
 ## Citation
 
-> Forneça o Bibtex para citação do repositório.
->
-> Ele deve ser um bloco de código do tipo bibtex (\```bibtex CITAÇÃO \```), contendo uma citação do tipo ```@software```, para o repositório. Existe um script para gerar a citação automaticamente (veja ao final deste arquivo).
->
-> A primeira citação deve ser ao código do repositório. Citação a outras produções relacionadas podem vir em seguida.
-
-<!--Don't remove the following tags, it's used for placing the generated citation from the CFF file-->
-<!--CITATION START-->
 ```bibtex
-@software{
-
+@software{imueval2025,
+  author = {Silva, Bruno G. and Garcia, Vinicius M. and Soto, Darline H. P. and Fernandes, Silvio and Borin, Edson and Costa, Paula D. P.},
+  title = {IMUEval – Synthetic IMU Data Evaluation Pipeline},
+  url = {https://github.com/H-IAAC/synth-imu-eval}
 }
 ```
-<!--CITATION END-->
 
 ## Authors
-
-> Lista ordenada por data das pessoas que desenvolveram algo neste repositório. Deve ter ao menos 1 autor. Inclua todas as pessoas envolvidas no projeto e desenvolvimento
->
-> Você também pode indicar um link para o perfil de algum autor: \[Nome do Autor]\(Link para o Perfil)
   
-- (\<ano início>-\<ano fim>) \<Nome>: \<degree>, \<instituição>
+- (2025-) Bruno G. Silva: PhD Student, FEEC-UNICAMP
+- (2025-) Vinicius M. Garcia: Undergrad Student, FEEC-UNICAMP
+- (2025-) Darline H. P. Soto: PhD Student, IC-UNICAMP
+- (2025-) Silvio Fernandes: Post-doc, FEEC-UNICAMP
+- (Advisor, 2025-) Edson Borin: Professor, IC-UNICAMP
+- (Advisor, 2025-) Paula D. P. Costa: Professor, FEEC-UNICAMP
   
 ## Acknowledgements
 
-> Agradecimento as intituições de formento. O agradecimento ao MCTI não deve ser alterado.
-
 Project supported by the brazilian Ministry of Science, Technology and Innovations, with resources from Law No. 8,248, of October 23, 1991
 
->Outros arquivos e informações que o repositório precisa ter:
-> - Preencha a descrição do repositóio
->   - É necessário um _role_ de _admin_ no repositório para alterar sua descrição. Pessoas com [_role_ de _owner_](https://github.com/orgs/H-IAAC/people?query=role%3Aowner) na organização do GitHub podem alterar os papéis por repositório.
->   - Na página principal do repositório, na coluna direita, clique na engrenagem ao lado de "About"
->   - É recomendável também adicionar "topics" aos dados do repositório
-> - Um arquivo LICENSE contendo a licença do repositório. Recomendamos a licença [LGPLv3](https://choosealicense.com/licenses/lgpl-3.0/).
->   - Converse com seu orientador caso acredite que essa licença não seja adequada. 
-> - Um arquivo CFF contendo as informações sobre como citar o repositório.
->   - Este arquivo é lido automaticamente por ferramentas como o próprio GitHub ou o Zenodo, que geram automaticamente as citações.
->   - Existem ferramentas para auxiliar a criação do arquivo, como o [CFF Init](https://bit.ly/cffinit).    
->   - O script `generate_citation.py` pode ser utilizado para preencher o bloco de citação deste README automaticamente:
->     - ```bash
->         python -m pip install cffconvert
->         python generate_citation.py
->         ```
->   - Caso o arquivo tenha a tag `doi: <DOI>`, ele será lido automaticamente pelo Index.
-> - Opcionalmente, o repositório pode ser preservado utilizando o Zenodo, que gerará um DOI para ele. [Tutorial](https://help.zenodo.org/docs/github/enable-repository/).
->   - É necessário um _role_ de _admin_ no repositório para publicar um repositório utilizando o Zenodo. Pessoas com [_role_ de _owner_](https://github.com/orgs/H-IAAC/people?query=role%3Aowner) na organização do GitHub podem alterar os papéis por repositório.
